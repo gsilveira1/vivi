@@ -1,37 +1,69 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Instagram, Clock, Send, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Phone, MapPin, MessageCircle, Instagram, Clock, Send, Check, Star } from 'lucide-react';
 import { ContactForm } from '../../types';
+import { SelectedPlan } from '../../App';
+import { submitLead } from '../../services/apiService';
 
-const ContactPage: React.FC = () => {
+interface ContactPageProps {
+  selectedPlan?: SelectedPlan | null;
+}
+
+const typeLabel: Record<string, string> = {
+  presencial: 'Presencial',
+  online: 'Online',
+  hibrido: 'Híbrido',
+};
+
+const buildPrefilledMessage = (plan: SelectedPlan) =>
+  `Olá, Viviana! 😊 Vi seu site e gostaria de saber mais sobre o plano *${plan.name}* (${typeLabel[plan.type] ?? plan.type} — R$ ${plan.price}/${plan.duration}). Pode me passar mais detalhes?`;
+
+const ContactPage: React.FC<ContactPageProps> = ({ selectedPlan }) => {
   const [formData, setFormData] = useState<ContactForm>({
     name: '',
     email: '',
     phone: '',
-    message: '',
-    interest: 'ambos'
+    message: selectedPlan ? buildPrefilledMessage(selectedPlan) : '',
+    interest: selectedPlan ? (selectedPlan.type === 'hibrido' ? 'ambos' : selectedPlan.type as ContactForm['interest']) : 'ambos',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  // Re-fill whenever the selected plan changes (e.g., user navigates back and picks another plan)
+  useEffect(() => {
+    if (selectedPlan) {
+      setFormData(prev => ({
+        ...prev,
+        message: buildPrefilledMessage(selectedPlan),
+        interest: selectedPlan.type === 'hibrido' ? 'ambos' : selectedPlan.type as ContactForm['interest'],
+      }));
+    }
+  }, [selectedPlan]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-      interest: 'ambos'
-    });
-    
-    // Hide success message after 5 seconds
-    setTimeout(() => setShowSuccess(false), 5000);
+    setSubmitError(null);
+
+    try {
+      await submitLead(formData);
+      setShowSuccess(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        interest: 'ambos'
+      });
+      // Hide success message after 5 seconds
+      setTimeout(() => setShowSuccess(false), 5000);
+    } catch (error: any) {
+      setSubmitError(
+        error?.message ?? 'Não foi possível enviar a mensagem. Tente pelo WhatsApp.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -43,7 +75,7 @@ const ContactPage: React.FC = () => {
             Vamos Conversar <span className="text-pink-600">Sobre Seus Objetivos</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Entre em contato para agendar uma conversa gratuita e descobrir 
+            Entre em contato para agendar uma conversa gratuita e descobrir
             como posso te ajudar a alcançar seus objetivos.
           </p>
         </div>
@@ -57,6 +89,14 @@ const ContactPage: React.FC = () => {
         </div>
       )}
 
+      {/* Error Message */}
+      {submitError && (
+        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center max-w-sm">
+          <span className="mr-2">⚠️</span>
+          {submitError}
+        </div>
+      )}
+
       {/* Contact Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +106,7 @@ const ContactPage: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
                 Entre em Contato
               </h2>
-              
+
               <div className="space-y-6 mb-8">
                 <div className="flex items-start">
                   <div className="bg-pink-100 p-3 rounded-lg mr-4">
@@ -75,8 +115,8 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-gray-900">WhatsApp</h3>
                     <p className="text-gray-600">(51) 99999-9999</p>
-                    <a 
-                      href="https://wa.me/5551999999999" 
+                    <a
+                      href="https://wa.me/5551999999999"
                       className="text-pink-600 hover:text-pink-700 text-sm"
                     >
                       Enviar mensagem →
@@ -91,8 +131,8 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="font-semibold text-gray-900">E-mail</h3>
                     <p className="text-gray-600">contato@viviananath.com</p>
-                    <a 
-                      href="mailto:contato@viviananath.com" 
+                    <a
+                      href="mailto:contato@viviananath.com"
                       className="text-pink-600 hover:text-pink-700 text-sm"
                     >
                       Enviar e-mail →
@@ -128,15 +168,15 @@ const ContactPage: React.FC = () => {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-4">Me Siga nas Redes</h3>
                 <div className="flex space-x-4">
-                  <a 
-                    href="https://instagram.com/viviananath" 
+                  <a
+                    href="https://instagram.com/viviananath"
                     className="bg-pink-600 p-3 rounded-lg text-white hover:bg-pink-700 transition-colors"
                     aria-label="Instagram"
                   >
                     <Instagram className="h-6 w-6" />
                   </a>
-                  <a 
-                    href="https://wa.me/5551999999999" 
+                  <a
+                    href="https://wa.me/5551999999999"
                     className="bg-green-600 p-3 rounded-lg text-white hover:bg-green-700 transition-colors"
                     aria-label="WhatsApp"
                   >
@@ -149,7 +189,23 @@ const ContactPage: React.FC = () => {
             {/* Contact Form */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Envie uma Mensagem</h3>
-              
+
+              {/* Selected Plan Banner */}
+              {selectedPlan && (
+                <div className="mb-6 bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-4 flex items-start gap-3">
+                  <div className="bg-pink-500 text-white p-2 rounded-full mt-0.5 flex-shrink-0">
+                    <Star className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-pink-700 text-sm">Plano selecionado</p>
+                    <p className="text-pink-900 font-bold">{selectedPlan.name}</p>
+                    <p className="text-pink-700 text-sm">
+                      {typeLabel[selectedPlan.type]} &middot; R$ {selectedPlan.price} / {selectedPlan.duration}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -263,7 +319,7 @@ const ContactPage: React.FC = () => {
               Aulas presenciais na região Sul do Brasil
             </p>
           </div>
-          
+
           <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
             <div className="text-center">
               <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />

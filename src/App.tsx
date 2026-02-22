@@ -9,11 +9,20 @@ import PlansPage from './components/Plans/PlansPage';
 import SchedulePage from './components/Schedule/SchedulePage';
 import ContactPage from './components/Contact/ContactPage';
 
+export interface SelectedPlan {
+  name: string;
+  type: string;
+  price: number;
+  duration: string;
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan | null>(null);
 
-  const handleNavigate = (page: string) => {
+  const handleNavigate = (page: string, plan?: SelectedPlan) => {
     setCurrentPage(page);
+    if (plan) setSelectedPlan(plan);
     window.scrollTo(0, 0);
   };
 
@@ -26,7 +35,7 @@ function App() {
       case 'schedule':
         return <SchedulePage />;
       case 'contact':
-        return <ContactPage />;
+        return <ContactPage selectedPlan={selectedPlan} />;
       default:
         return (
           <>

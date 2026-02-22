@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Check, Star, Zap, Users, Monitor, MapPin } from 'lucide-react';
 import { plans } from '../../utils/mockData';
+import { SelectedPlan } from '../../App';
 
 interface PlansPageProps {
-  onNavigate: (page: string) => void;
+  onNavigate: (page: string, plan?: SelectedPlan) => void;
 }
 
 const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
   const [selectedType, setSelectedType] = useState<'all' | 'presencial' | 'online' | 'hibrido'>('all');
 
-  const filteredPlans = selectedType === 'all' 
-    ? plans 
+  const filteredPlans = selectedType === 'all'
+    ? plans
     : plans.filter(plan => plan.type === selectedType);
 
   const getTypeIcon = (type: string) => {
@@ -40,10 +41,10 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
             Escolha Seu <span className="text-pink-600">Plano Ideal</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Planos pensados especialmente para mulheres que querem resultados reais. 
+            Planos pensados especialmente para mulheres que querem resultados reais.
             Flexibilidade para se adaptar à sua rotina.
           </p>
-          
+
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             {[
@@ -55,11 +56,10 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
               <button
                 key={filter.key}
                 onClick={() => setSelectedType(filter.key as any)}
-                className={`px-6 py-3 rounded-full font-medium transition-all ${
-                  selectedType === filter.key
+                className={`px-6 py-3 rounded-full font-medium transition-all ${selectedType === filter.key
                     ? 'bg-pink-600 text-white shadow-lg'
                     : 'bg-white text-gray-700 hover:bg-pink-50 hover:text-pink-600'
-                }`}
+                  }`}
               >
                 {filter.label}
               </button>
@@ -75,13 +75,12 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
             {filteredPlans.map((plan) => {
               const TypeIcon = getTypeIcon(plan.type);
               const typeColorClass = getTypeColor(plan.type);
-              
+
               return (
                 <div
                   key={plan.id}
-                  className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 ${
-                    plan.popular ? 'ring-2 ring-pink-500 relative' : ''
-                  }`}
+                  className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 ${plan.popular ? 'ring-2 ring-pink-500 relative' : ''
+                    }`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -91,7 +90,7 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   <div className="p-8">
                     {/* Header */}
                     <div className="text-center mb-6">
@@ -130,14 +129,18 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
 
                     {/* CTA Button */}
                     <button
-                      onClick={() => onNavigate('contact')}
-                      className={`w-full py-4 rounded-lg font-semibold transition-all ${
-                        plan.popular
+                      onClick={() => onNavigate('contact', {
+                        name: plan.name,
+                        type: plan.type,
+                        price: plan.price,
+                        duration: plan.duration,
+                      })}
+                      className={`w-full py-4 rounded-lg font-semibold transition-all ${plan.popular
                           ? 'bg-pink-600 text-white hover:bg-pink-700'
                           : 'bg-pink-100 text-pink-600 hover:bg-pink-200'
-                      }`}
+                        }`}
                     >
-                      Escolher Plano
+                      Escolher este Plano
                     </button>
                   </div>
                 </div>
@@ -153,7 +156,7 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
             Perguntas Frequentes
           </h2>
-          
+
           <div className="space-y-6">
             {[
               {
@@ -194,14 +197,14 @@ const PlansPage: React.FC<PlansPageProps> = ({ onNavigate }) => {
           </div>
           <h2 className="text-3xl font-bold text-white mb-4">Garantia de Satisfação</h2>
           <p className="text-xl text-pink-100 mb-8">
-            Se você não ficar satisfeita com os resultados nos primeiros 30 dias, 
+            Se você não ficar satisfeita com os resultados nos primeiros 30 dias,
             devolvemos 100% do seu investimento.
           </p>
           <button
             onClick={() => onNavigate('contact')}
             className="bg-white text-pink-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all"
           >
-            Quero Começar Agora
+            Quero Começar Agora →
           </button>
         </div>
       </section>

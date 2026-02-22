@@ -30,11 +30,25 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Olá, eu sou a <span className="text-pink-600">Viviana Nath</span>
+                OLÁ, EU SOU A <span className="text-pink-600">VIVIANA NATH</span>
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Personal Trainer apaixonada por transformar a vida de mulheres através do fitness. 
-                Minha missão é ajudar cada mulher a descobrir sua força interior e exterior.
+
+                SOU PERSONAL TRAINER ESPECIALIZADA EM TREINO INTELIGENTE
+                PARA MULHERES ACIMA DOS 30 ANOS QUE BUSCAM FORÇA, ESTÉTICA
+                E SAÚDE COM EQUILÍBRIO E RESULTADOS SUSTENTÁVEIS. MEU
+                OBJETIVO É MOSTRAR QUE É POSSÍVEL CONQUISTAR UM CORPO
+                BONITO E SAUDÁVEL ENQUANTO SE EQUILIBRA A ROTINA DA VIDA
+                REAL, COMO TRABALHO E FAMÍLIA, COM TREINOS ADAPTADOS ÀS
+                NECESSIDADES DE CADA ALUNA.
+                COM MAIS DE 10 ANOS DE EXPERIÊNCIA EM MUSCULAÇÃO E
+                CONDICIONAMENTO FÍSICO, E 5 ANOS ATUANDO COMO PERSONAL
+                TRAINER, OFEREÇO ATENDIMENTOS PRESENCIAIS E ON-LINE COM
+                FOCO EM SAÚDE, BEM-ESTAR E OBJETIVOS ESTÉTICOS, SEMPRE DE
+                FORMA CONSCIENTE E ALINHADA ÀS METAS INDIVIDUAIS. PARA MIM, O
+                EXERCÍCIO FÍSICO É MAIS DO QUE UMA ATIVIDADE — É UMA
+                FERRAMENTA PODEROSA PARA GARANTIR QUALIDADE DE VIDA,
+                AUTONOMIA E AUTOCONFIANÇA EM TODAS AS FASES DA VIDA.
               </p>
               <button
                 onClick={() => onNavigate('contact')}
@@ -52,10 +66,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Stats */}
-      <section className="py-16 bg-white">
+      < section className="py-16 bg-white" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {achievements.map((achievement, index) => {
@@ -72,40 +86,40 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             })}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Story */}
-      <section className="py-20 bg-gray-50">
+      < section className="py-20 bg-gray-50" >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Minha História</h2>
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              Sempre fui apaixonada por movimento e bem-estar, mas minha jornada no fitness começou 
-              quando percebi que muitas mulheres, assim como eu, lutavam com questões de autoestima 
+              Sempre fui apaixonada por movimento e bem-estar, mas minha jornada no fitness começou
+              quando percebi que muitas mulheres, assim como eu, lutavam com questões de autoestima
               e relacionamento com o próprio corpo.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              Após me formar em Educação Física e me especializar em treinamento funcional e 
-              musculação feminina, dediquei minha carreira a criar um ambiente seguro e acolhedor 
+              Após me formar em Educação Física e me especializar em treinamento funcional e
+              musculação feminina, dediquei minha carreira a criar um ambiente seguro e acolhedor
               onde as mulheres pudessem se reconectar com sua força.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              Hoje, com mais de 5 anos de experiência e centenas de vidas transformadas, meu foco 
-              continua sendo o mesmo: ajudar cada mulher a descobrir que ela é capaz de muito mais 
+              Hoje, com mais de 5 anos de experiência e centenas de vidas transformadas, meu foco
+              continua sendo o mesmo: ajudar cada mulher a descobrir que ela é capaz de muito mais
               do que imagina.
             </p>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Methodology */}
-      <section className="py-20 bg-white">
+      < section className="py-20 bg-white" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Minha Metodologia</h2>
               <p className="text-lg text-gray-600 mb-8">
-                Desenvolvi um método único que combina ciência do exercício, psicologia esportiva 
+                Desenvolvi um método único que combina ciência do exercício, psicologia esportiva
                 e muito cuidado humano. Cada aluna é única, e por isso cada programa é único.
               </p>
               <ul className="space-y-4">
@@ -126,10 +140,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Certifications */}
-      <section className="py-20 bg-gray-50">
+      < section className="py-20 bg-gray-50" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Formação e Certificações</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -165,10 +179,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-pink-500 to-rose-500">
+      < section className="py-20 bg-gradient-to-r from-pink-500 to-rose-500" >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Pronta para Começar Sua Transformação?
@@ -191,8 +205,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </button>
           </div>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 };
 

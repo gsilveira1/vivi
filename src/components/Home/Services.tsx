@@ -10,10 +10,10 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
     {
       icon: MapPin,
       title: "Personal Training Presencial",
-      description: "Aulas individuais ou em pequenos grupos na região Sul",
-      features: ["Acompanhamento em tempo real", "Equipamentos inclusos", "Avaliação física completa"],
+      description: "Aulas individuais",
+      features: ["Treinos personalizados", "Avaliação física completa", "Suporte via WhatsApp"],
       color: "pink",
-      location: "Porto Alegre e região"
+      location: "Taquara - RS"
     },
     {
       icon: Monitor,
@@ -21,15 +21,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
       description: "Acompanhamento personalizado de qualquer lugar do mundo",
       features: ["Treinos personalizados", "Calls de acompanhamento", "Suporte via WhatsApp"],
       color: "blue",
-      location: "Disponível mundialmente"
-    },
-    {
-      icon: Users,
-      title: "Treinos em Grupo",
-      description: "Energia e motivação em aulas coletivas presenciais",
-      features: ["Máximo 8 pessoas", "Ambiente motivador", "Preço mais acessível"],
-      color: "green",
-      location: "Porto Alegre"
+      location: "Online"
     }
   ];
 
@@ -65,24 +57,27 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
             Como Posso Te <span className="text-pink-600">Ajudar</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Escolha a modalidade que melhor se adapta ao seu estilo de vida e objetivos
+            DESCUBRA A MODALIDADE QUE MELHOR ATENDE ÀS SUAS NECESSIDADES, ESTILO DE VIDA E OBJETIVOS. SEJA QUAL FOR A
+            SUA META — EMAGRECER, GANHAR MASSA MUSCULAR, MELHORAR SUA SAÚDE, ALIVIAR O ESTRESSE OU SIMPLESMENTE
+            MANTER-SE ATIVO — OFERECEMOS DIVERSAS OPÇÕES PERSONALIZADAS PARA AJUDAR VOCÊ A ALCANÇAR SEUS RESULTADOS
+            COM EFICIÊNCIA E SATISFAÇÃO. ESCOLHA O MÉTODO IDEAL E DÊ O PRÓXIMO PASSO RUMO AO SEU BEM-ESTAR!
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {services.map((service, index) => {
             const colors = getColorClasses(service.color);
             const Icon = service.icon;
-            
+
             return (
               <div key={index} className={`${colors.bg} rounded-2xl p-8 hover:shadow-lg transition-all`}>
                 <div className={`${colors.icon} w-16 h-16 rounded-xl flex items-center justify-center mb-6`}>
                   <Icon className="h-8 w-8" />
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.description}</p>
-                
+
                 <div className="flex items-center text-sm text-gray-500 mb-6">
                   <MapPin className="h-4 w-4 mr-1" />
                   {service.location}
@@ -119,7 +114,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
               Ver Agenda Completa →
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
@@ -132,7 +127,7 @@ const Services: React.FC<ServicesProps> = ({ onNavigate }) => {
               </div>
               <p className="text-sm text-gray-500 mt-2">5/8 vagas ocupadas</p>
             </div>
-            
+
             <div className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-semibold text-gray-900">Consultoria Individual</h4>

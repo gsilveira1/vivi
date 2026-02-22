@@ -16,17 +16,19 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               <Star className="h-4 w-4 mr-2" />
               Personal Trainer Especializada
             </div>
-            
+
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Ajudando mulheres a conquistar um{' '}
-              <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">
-                corpo saudável e forte
-              </span>
+              Transforme-se com o método{' '}
+              <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">VIVI</span> de transformação
             </h1>
-            
+
             <p className="text-xl text-gray-600 mb-8 max-w-2xl">
-              Transforme seu corpo e sua autoestima com treinos personalizados, 
-              acompanhamento profissional e metodologia comprovada.
+              Descubra o método exclusivo de Viviana Nath, que une
+              ciência, personalização e motivação para resultados
+              reais. Seja para emagrecer, ganhar músculos, melhorar
+              sua saúde ou aumentar sua autoestima, o Método VIVI
+              vai além do comum: ele é pensado para transformar não
+              apenas seu corpo, mas sua mente e sua vida
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
@@ -34,14 +36,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 onClick={() => onNavigate('plans')}
                 className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-pink-600 hover:to-rose-600 transition-all transform hover:scale-105 shadow-lg"
               >
-                Começar Transformação
-              </button>
-              <button
-                onClick={() => onNavigate('schedule')}
-                className="border-2 border-pink-500 text-pink-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-pink-50 transition-all flex items-center justify-center gap-2"
-              >
-                <Play className="h-5 w-5" />
-                Agendar Aula
+                Dê o primeiro passo rumo à sua melhor versão!
               </button>
             </div>
 
@@ -80,7 +75,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 className="rounded-2xl shadow-2xl w-full"
               />
             </div>
-            
+
             {/* Floating Elements */}
             <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-lg z-20">
               <div className="flex items-center space-x-2">
