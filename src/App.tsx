@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
-import Header from './components/Layout/Header';
-import Footer from './components/Layout/Footer';
-import Hero from './components/Home/Hero';
-import Services from './components/Home/Services';
-import Testimonials from './components/Home/Testimonials';
+import { PublicPageLayout } from './components/templates/PublicPageLayout';
+import { HeroSection } from './components/organisms/HeroSection';
+import { ServicesGrid } from './components/organisms/ServicesGrid';
+import { TestimonialsSection } from './components/organisms/TestimonialsSection';
 import AboutPage from './components/About/AboutPage';
 import PlansPage from './components/Plans/PlansPage';
 import SchedulePage from './components/Schedule/SchedulePage';
 import ContactPage from './components/Contact/ContactPage';
 
+export interface SelectedPlan {
+  name: string;
+  type: string;
+  price: number;
+  duration: string;
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan | null>(null);
 
-  const handleNavigate = (page: string) => {
+  const handleNavigate = (page: string, plan?: SelectedPlan) => {
     setCurrentPage(page);
+    if (plan) setSelectedPlan(plan);
     window.scrollTo(0, 0);
   };
 
@@ -26,26 +34,22 @@ function App() {
       case 'schedule':
         return <SchedulePage />;
       case 'contact':
-        return <ContactPage />;
+        return <ContactPage selectedPlan={selectedPlan} />;
       default:
         return (
           <>
-            <Hero onNavigate={handleNavigate} />
-            <Services onNavigate={handleNavigate} />
-            <Testimonials />
+            <HeroSection onNavigate={handleNavigate} />
+            <ServicesGrid onNavigate={handleNavigate} />
+            <TestimonialsSection />
           </>
         );
     }
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header currentPage={currentPage} onNavigate={handleNavigate} />
-      <main>
-        {renderPage()}
-      </main>
-      <Footer />
-    </div>
+    <PublicPageLayout currentPage={currentPage} onNavigate={handleNavigate}>
+      {renderPage()}
+    </PublicPageLayout>
   );
 }
 

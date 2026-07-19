@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Site Completo da Personal Trainer Viviana Nath</title>
+    <!-- Google Maps JavaScript API with Places library -->
+    <script>
+      // We inject the key via Vite's HTML env replacement at build time
+      window.__GMAPS_KEY__ = '%VITE_GOOGLE_MAPS_API_KEY%';
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=%VITE_GOOGLE_MAPS_API_KEY%&libraries=places"
+      async
+      defer
+    ></script>
   </head>
   <body>
     <div id="root"></div>
