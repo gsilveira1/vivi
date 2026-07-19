@@ -39,3 +39,11 @@ export interface ContactForm {
   message: string;
   interest: 'presencial' | 'online' | 'ambos';
 }
+
+/** Shape returned by GET /api/sessions/available */
+export interface AvailableSlot {
+  date: string;   // 'YYYY-MM-DD'
+  time: string;   // 'HH:MM'
+  type: 'In-Person' | 'Online';
+  available: boolean;
+}

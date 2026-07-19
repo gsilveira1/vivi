@@ -1,149 +1,85 @@
-import React, { useState } from 'react';
-import { Calendar as CalendarIcon, Filter, Check } from 'lucide-react';
-import Calendar from './Calendar';
-import BookingModal from './BookingModal';
-import { mockClasses } from '../../utils/mockData';
-import { ClassSchedule } from '../../types';
+import React, { useState, useEffect, useCallback } from 'react';
+import { BookingCalendar } from '../organisms/BookingCalendar';
+import { BookingModal } from '../organisms/BookingModal';
+import { AvailableSlot } from '../../types';
+import { fetchAvailableSlots } from '../../utils/apiService';
+import { addMonths, startOfMonth, endOfMonth } from 'date-fns';
 
-const SchedulePage: React.FC = () => {
-  const [classes, setClasses] = useState<ClassSchedule[]>(mockClasses);
-  const [selectedClass, setSelectedClass] = useState<ClassSchedule | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filter, setFilter] = useState<'all' | 'presencial' | 'online'>('all');
-  const [showSuccess, setShowSuccess] = useState(false);
+export const SchedulePage: React.FC = () => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedSlot, setSelectedSlot] = useState<AvailableSlot | null>(null);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState<AvailableSlot[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredClasses = filter === 'all' 
-    ? classes 
-    : classes.filter(cls => cls.type === filter);
-
-  const handleBookClass = (classId: string) => {
-    const classItem = classes.find(cls => cls.id === classId);
-    if (classItem) {
-      setSelectedClass(classItem);
-      setIsModalOpen(true);
+  const loadSlots = useCallback(async (month: Date) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const start = startOfMonth(month);
+      const end = endOfMonth(month);
+      const slots = await fetchAvailableSlots(start, end);
+      setAvailableSlots(slots);
+    } catch (err) {
+      console.error('Failed to load available slots:', err);
+      setError('Não foi possível carregar os horários. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  const handleConfirmBooking = (bookingData: { name: string; email: string; phone: string }) => {
-    if (selectedClass) {
-      // Update class participants
-      setClasses(prev => prev.map(cls => 
-        cls.id === selectedClass.id 
-          ? { ...cls, currentParticipants: Math.min(cls.currentParticipants + 1, cls.maxParticipants) }
-          : cls
-      ));
-      
-      setIsModalOpen(false);
-      setSelectedClass(null);
-      setShowSuccess(true);
-      
-      // Hide success message after 3 seconds
-      setTimeout(() => setShowSuccess(false), 3000);
-    }
-  };
+  useEffect(() => { loadSlots(currentMonth); }, [currentMonth, loadSlots]);
+
+  const handleSlotSelect = (slot: AvailableSlot) => { setSelectedSlot(slot); setIsBookingModalOpen(true); };
+  const handleBookingSuccess = () => { setIsBookingModalOpen(false); setSelectedSlot(null); loadSlots(currentMonth); };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <section className="bg-gradient-to-br from-pink-50 to-rose-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center bg-pink-100 text-pink-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <CalendarIcon className="h-4 w-4 mr-2" />
-              Agenda Online
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Agende Sua <span className="text-pink-600">Aula</span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Escolha o melhor horário para sua transformação. Aulas presenciais e online disponíveis.
-            </p>
-          </div>
-
-          {/* Filter */}
-          <div className="flex justify-center">
-            <div className="bg-white rounded-lg p-1 flex space-x-1 shadow-sm">
-              {[
-                { key: 'all', label: 'Todas' },
-                { key: 'presencial', label: 'Presencial' },
-                { key: 'online', label: 'Online' }
-              ].map((filterOption) => (
-                <button
-                  key={filterOption.key}
-                  onClick={() => setFilter(filterOption.key as any)}
-                  className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
-                    filter === filterOption.key
-                      ? 'bg-pink-600 text-white'
-                      : 'text-gray-600 hover:text-pink-600'
-                  }`}
-                >
-                  {filterOption.label}
-                </button>
-              ))}
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+      <div className="relative py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/20 text-purple-300 text-sm font-medium mb-4 border border-purple-500/30">Agenda</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Horários Disponíveis</h1>
+          <p className="text-lg text-gray-300 max-w-xl mx-auto">Escolha o melhor horário e dê o primeiro passo na sua transformação. Vagas limitadas.</p>
         </div>
-      </section>
+      </div>
 
-      {/* Success Message */}
-      {showSuccess && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center">
-          <Check className="h-5 w-5 mr-2" />
-          Agendamento confirmado! Você receberá um e-mail de confirmação.
+      <div className="max-w-4xl mx-auto px-4 pb-20">
+        {error && (
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/40 rounded-xl text-red-300 text-sm text-center">
+            {error}
+            <button onClick={() => loadSlots(currentMonth)} className="ml-3 underline hover:no-underline">Tentar novamente</button>
+          </div>
+        )}
+
+        <BookingCalendar
+          currentMonth={currentMonth}
+          availableSlots={availableSlots}
+          isLoading={isLoading}
+          onPrevMonth={() => setCurrentMonth((m) => addMonths(m, -1))}
+          onNextMonth={() => setCurrentMonth((m) => addMonths(m, 1))}
+          onSlotSelect={handleSlotSelect}
+        />
+
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { icon: '📍', title: 'Presencial', desc: 'Região Sul – Pelotas/RS' },
+            { icon: '💻', title: 'Online', desc: 'Atendimento via videochamada' },
+            { icon: '🎯', title: 'Personalizado', desc: 'Treinos 100% individualizados' },
+          ].map((item) => (
+            <div key={item.title} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center backdrop-blur-sm">
+              <div className="text-2xl mb-2">{item.icon}</div>
+              <div className="text-white font-semibold text-sm">{item.title}</div>
+              <div className="text-gray-400 text-xs mt-1">{item.desc}</div>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {isBookingModalOpen && selectedSlot && (
+        <BookingModal slot={selectedSlot} onClose={() => setIsBookingModalOpen(false)} onSuccess={handleBookingSuccess} />
       )}
-
-      {/* Calendar */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Calendar 
-            classes={filteredClasses} 
-            onBookClass={handleBookClass}
-          />
-        </div>
-      </section>
-
-      {/* Info Cards */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">Política de Cancelamento</h3>
-              <p className="text-gray-600 text-sm">
-                Aulas presenciais: cancelamento até 4h antes<br />
-                Consultorias online: cancelamento até 2h antes
-              </p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">O que levar</h3>
-              <p className="text-gray-600 text-sm">
-                Água, toalha e roupas confortáveis.<br />
-                Equipamentos são fornecidos no local.
-              </p>
-            </div>
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">Dúvidas?</h3>
-              <p className="text-gray-600 text-sm">
-                Entre em contato via WhatsApp:<br />
-                (51) 99999-9999
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Modal */}
-      <BookingModal
-        classItem={selectedClass}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedClass(null);
-        }}
-        onConfirm={handleConfirmBooking}
-      />
     </div>
   );
 };
-
 export default SchedulePage;
