@@ -28,7 +28,7 @@ jobs:
 
       - name: Check TypeScript Compilation
         # Verifica se há erros de tipagem antes de fazer o deploy
-        run: npm run build -- --noEmit 
+        run: npm run build
 
   # ----------------------------------------------------
   # 2. Entrega Contínua (Deploy para o Netlify)
