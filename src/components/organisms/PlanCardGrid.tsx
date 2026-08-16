@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, MapPin, Monitor, Loader2, Star } from 'lucide-react';
+import { MapPin, Monitor, Loader2, Star } from 'lucide-react';
 import { type PublicPlans } from '../../services/apiService';
 import { SelectedPlan } from '../../App';
 import { PlanFeatureItem } from '../molecules/PlanFeatureItem';

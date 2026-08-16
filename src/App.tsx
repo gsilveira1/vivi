@@ -3,10 +3,9 @@ import { PublicPageLayout } from './components/templates/PublicPageLayout';
 import { HeroSection } from './components/organisms/HeroSection';
 import { ServicesGrid } from './components/organisms/ServicesGrid';
 import { TestimonialsSection } from './components/organisms/TestimonialsSection';
-import AboutPage from './components/About/AboutPage';
-import PlansPage from './components/Plans/PlansPage';
-import SchedulePage from './components/Schedule/SchedulePage';
-import ContactPage from './components/Contact/ContactPage';
+import AboutPage from './pages/About/AboutPage';
+import PlansPage from './pages/Plans/PlansPage';
+import ContactPage from './pages/Contact/ContactPage';
 
 export interface SelectedPlan {
   name: string;
@@ -31,8 +30,6 @@ function App() {
         return <AboutPage onNavigate={handleNavigate} />;
       case 'plans':
         return <PlansPage onNavigate={handleNavigate} />;
-      case 'schedule':
-        return <SchedulePage />;
       case 'contact':
         return <ContactPage selectedPlan={selectedPlan} />;
       default:

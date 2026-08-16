@@ -11,9 +11,7 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({ currentPage, onNavig
 
   const navigation = [
     { name: 'Início', id: 'home' },
-    { name: 'Sobre', id: 'about' },
     { name: 'Planos', id: 'plans' },
-    { name: 'Agenda', id: 'schedule' },
     { name: 'Contato', id: 'contact' }
   ];
 
@@ -41,11 +39,10 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({ currentPage, onNavig
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`px-3 py-2 text-sm font-medium transition-colors ${
-                  currentPage === item.id
-                    ? 'text-pink-600 border-b-2 border-pink-500'
-                    : 'text-gray-700 hover:text-pink-600'
-                }`}
+                className={`px-3 py-2 text-sm font-medium transition-colors ${currentPage === item.id
+                  ? 'text-pink-600 border-b-2 border-pink-500'
+                  : 'text-gray-700 hover:text-pink-600'
+                  }`}
               >
                 {item.name}
               </button>
@@ -84,11 +81,10 @@ export const PublicHeader: React.FC<PublicHeaderProps> = ({ currentPage, onNavig
                     onNavigate(item.id);
                     setIsMenuOpen(false);
                   }}
-                  className={`text-left px-3 py-2 text-sm font-medium transition-colors ${
-                    currentPage === item.id
-                      ? 'text-pink-600 bg-pink-50'
-                      : 'text-gray-700 hover:text-pink-600 hover:bg-pink-50'
-                  } rounded-lg`}
+                  className={`text-left px-3 py-2 text-sm font-medium transition-colors ${currentPage === item.id
+                    ? 'text-pink-600 bg-pink-50'
+                    : 'text-gray-700 hover:text-pink-600 hover:bg-pink-50'
+                    } rounded-lg`}
                 >
                   {item.name}
                 </button>

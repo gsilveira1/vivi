@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { MapPin, Monitor } from 'lucide-react';
 import { getPublicPlans, type PublicPlans } from '../../services/apiService';
 import { SelectedPlan } from '../../App';
-import { PlanCardGrid } from '../organisms/PlanCardGrid';
-import { FAQSection } from '../organisms/FAQSection';
-import { GuaranteeSection } from '../organisms/GuaranteeSection';
+import { PlanCardGrid } from '../../components/organisms/PlanCardGrid';
+import { FAQSection } from '../../components/organisms/FAQSection';
+import { GuaranteeSection } from '../../components/organisms/GuaranteeSection';
 
 interface PlansPageProps {
   onNavigate: (page: string, plan?: SelectedPlan) => void;

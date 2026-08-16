@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Monitor, MapPin, Users, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Monitor, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ServicesGridProps {
   onNavigate: (page: string) => void;

@@ -3,8 +3,8 @@ import { Check, MapPin } from 'lucide-react';
 import { ContactForm as ContactFormData } from '../../types';
 import { SelectedPlan } from '../../App';
 import { submitLead } from '../../services/apiService';
-import { ContactForm } from '../organisms/ContactForm';
-import { ContactInfoPanel } from '../organisms/ContactInfoPanel';
+import { ContactForm } from '../../components/organisms/ContactForm';
+import { ContactInfoPanel } from '../../components/organisms/ContactInfoPanel';
 
 interface ContactPageProps {
   selectedPlan?: SelectedPlan | null;
