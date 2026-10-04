@@ -30,6 +30,12 @@ jobs:
         run: npm run lint
 
       - name: Check TypeScript Compilation
+        run: npm run typecheck
+
+      - name: Run verification suite
+        run: npm run test
+
+      - name: Check build
         run: npm run build
 
   # ----------------------------------------------------

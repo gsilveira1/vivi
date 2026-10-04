@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PublicPageLayout } from './components/templates/PublicPageLayout';
 import { HeroSection } from './components/organisms/HeroSection';
 import { ServicesGrid } from './components/organisms/ServicesGrid';
